@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"path"
@@ -22,6 +23,9 @@ const (
 func connectAlertManager(ctx context.Context, d *plugin.QueryData) (*client.AlertmanagerAPI, error) {
 
 	address := os.Getenv("ALERTMANAGER_ADDRESS")
+	caCert := os.Getenv("ALERTMANAGER_CA_CERT")
+	tlsCert := os.Getenv("ALERTMANAGER_TLS_CERT")
+	tlsKey := os.Getenv("ALERTMANAGER_TLS_KEY")
 	schemes := []string{"http"}
 	alertmanager_path := "/"
 
@@ -33,30 +37,45 @@ func connectAlertManager(ctx context.Context, d *plugin.QueryData) (*client.Aler
 		return nil, errors.New("'address' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
 	}
 
-	cr := clientruntime.New(address, path.Join(alertmanager_path, defaultAmApiv2path), schemes)
-
-	if *alertManagerConfig.CertKey != "" && *alertManagerConfig.CertCA != "" && *alertManagerConfig.Cert != "" {
-		cert, err := os.ReadFile(*alertManagerConfig.CertCA)
-		if err != nil {
-			return nil, errors.New("could not open certificate ca file")
-		}
-		caCertPool := x509.NewCertPool()
-		caCertPool.AppendCertsFromPEM(cert)
-
-		certificate, err := tls.LoadX509KeyPair(*alertManagerConfig.Cert, *alertManagerConfig.CertKey)
-		if err != nil {
-			return nil, errors.New("could not load certificate and certificate key file")
-		}
-
-		httpClient := &http.Client{Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{
-				RootCAs:      caCertPool,
-				Certificates: []tls.Certificate{certificate},
-			},
-		}}
-
-		cr = clientruntime.NewWithClient(address, path.Join(alertmanager_path, defaultAmApiv2path), schemes, httpClient)
+	if alertManagerConfig.TlsCert != nil {
+		tlsCert = *alertManagerConfig.TlsCert
 	}
+
+	if alertManagerConfig.CaCert != nil {
+		caCert = *alertManagerConfig.CaCert
+	}
+
+	if alertManagerConfig.TlsKey != nil {
+		tlsKey = *alertManagerConfig.TlsKey
+	}
+
+	var cert tls.Certificate
+	var pool *x509.CertPool
+
+	if caCert != "" {
+		ca, err := os.ReadFile(caCert)
+		if err != nil {
+			return nil, fmt.Errorf("ca_cert error: %s", err.Error())
+		}
+		pool = x509.NewCertPool()
+		pool.AppendCertsFromPEM(ca)
+	}
+	if tlsKey != "" && tlsCert != "" {
+		var err error
+		cert, err = tls.LoadX509KeyPair(tlsCert, tlsKey)
+		if err != nil {
+			return nil, fmt.Errorf("tls_key and tls_cert error: %s", err.Error())
+		}
+	}
+
+	httpClient := &http.Client{Transport: &http.Transport{
+		TLSClientConfig: &tls.Config{
+			RootCAs:      pool,
+			Certificates: []tls.Certificate{cert},
+		},
+	}}
+
+	cr := clientruntime.NewWithClient(address, path.Join(alertmanager_path, defaultAmApiv2path), schemes, httpClient)
 
 	client := client.New(cr, strfmt.Default)
 

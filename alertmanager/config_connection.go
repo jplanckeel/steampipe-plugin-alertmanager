@@ -9,9 +9,9 @@ type alertManagerConfig struct {
 	Address *string `cty:"address"`
 	Schemes *string `cty:"schemes"`
 	Path    *string `cty:"path"`
-	CertCA  *string `cty:"cert_ca"`
-	CertKey *string `cty:"cert_key"`
-	Cert    *string `cty:"cert"`
+	CaCert  *string `cty:"ca_cert"`
+	TlsKey  *string `cty:"tls_key"`
+	TlsCert *string `cty:"tls_cert"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{
@@ -24,13 +24,13 @@ var ConfigSchema = map[string]*schema.Attribute{
 	"path": {
 		Type: schema.TypeString,
 	},
-	"cert_ca": {
+	"ca_cert": {
 		Type: schema.TypeString,
 	},
-	"cert_key": {
+	"tls_key": {
 		Type: schema.TypeString,
 	},
-	"cert": {
+	"tls_cert": {
 		Type: schema.TypeString,
 	},
 }
