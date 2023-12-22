@@ -66,6 +66,7 @@ func connectAlertManager(ctx context.Context, d *plugin.QueryData) (*client.Aler
 		if err != nil {
 			return nil, fmt.Errorf("tls_key and tls_cert error: %s", err.Error())
 		}
+		schemes = []string{"https"}
 	}
 
 	httpClient := &http.Client{Transport: &http.Transport{

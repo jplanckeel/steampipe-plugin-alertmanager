@@ -7,7 +7,6 @@ import (
 
 type alertManagerConfig struct {
 	Address *string `cty:"address"`
-	Schemes *string `cty:"schemes"`
 	Path    *string `cty:"path"`
 	CaCert  *string `cty:"ca_cert"`
 	TlsKey  *string `cty:"tls_key"`
@@ -16,9 +15,6 @@ type alertManagerConfig struct {
 
 var ConfigSchema = map[string]*schema.Attribute{
 	"address": {
-		Type: schema.TypeString,
-	},
-	"schemes": {
 		Type: schema.TypeString,
 	},
 	"path": {
