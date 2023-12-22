@@ -16,8 +16,10 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		},
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		TableMap: map[string]*plugin.Table{
-			//"alertmanager_alerts": tableAlertManagerAlerts(),
-			"alertmanager_silences": tableAlertManagerSilences(),
+			"alertmanager_alerts":      tableAlertManagerAlerts(),
+			"alertmanager_alertgroups": tableAlertManagerAlertGroups(),
+			"alertmanager_receivers":   tableAlertManagerReceivers(),
+			"alertmanager_silences":    tableAlertManagerSilences(),
 		},
 	}
 	return p
