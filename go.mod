@@ -4,7 +4,7 @@ go 1.21.3
 
 require (
 	github.com/go-openapi/runtime v0.26.0
-	github.com/go-openapi/strfmt v0.21.10
+	github.com/go-openapi/strfmt v0.22.0
 	github.com/prometheus/alertmanager v0.26.0
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.8.0
 )
@@ -52,7 +52,7 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/s2a-go v0.1.4 // indirect
-	github.com/google/uuid v1.4.0 // indirect
+	github.com/google/uuid v1.5.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.3 // indirect
 	github.com/googleapis/gax-go/v2 v2.11.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0 // indirect
