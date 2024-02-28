@@ -5,5 +5,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  sync_labels_workflow:
-    uses: turbot/steampipe-workflows/.github/workflows/sync-labels.yml@main
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repo type
+        id: repo-type
+        run: |
+          repo_type=$(echo $GITHUB_REPOSITORY | cut -d '-' -f 2)
+          echo $repo_type
+          echo "::set-output name=repo-type::${repo_type}"
+
+      - name: Sync plugin labels
+        if: steps.repo-type.outputs.repo-type == 'plugin'
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: 'https://raw.githubusercontent.com/turbot/steampipe-workflows/main/.github/plugin_labels.yml'
+          delete-other-labels: true
+
+      - name: Sync mod labels
+        if: steps.repo-type.outputs.repo-type == 'mod'
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: 'https://raw.githubusercontent.com/turbot/steampipe-workflows/main/.github/mod_labels.yml'
+          delete-other-labels: true
