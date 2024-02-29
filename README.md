@@ -6,7 +6,7 @@ Use SQL to query infrastructure including alerts, receivers, silences and more f
 - **[Get started →](https://hub.steampipe.io/plugins/jplanckeel/alertmanager)**
 - Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/jplanckeel/alertmanager/tables)
 - Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
-- Get involved: [Issues](https://github.com/jplanckeel/alertmanager/issues)
+- Get involved: [Issues](https://github.com/jplanckeel/steampipe-plugin-alertmanager/issues)
 
 ## Quick start
 
