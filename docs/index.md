@@ -1,13 +1,13 @@
 ---
 organization: jplanckeel
-category: ["alert management"]
-icon_url: ""
+category: ["software development"]
+icon_url: "/images/plugins/turbot/alertmanager.svg"
 brand_color: "#e0653b"
 display_name: "AlertManager"
 short_name: "alertmanager"
 description: "Steampipe plugin to query alerts, silences and more from AlertManager."
 og_description: "Query AlertManager with SQL! Open source CLI. No DB required."
-og_image: 
+og_image: /images/plugins/turbot/alertmanager-social-graphic.png
 engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
