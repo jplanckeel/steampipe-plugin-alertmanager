@@ -1,12 +1,13 @@
 module github.com/turbot/steampipe-plugin-alertmanager
 
 go 1.21.3
+toolchain go1.22.5
 
 require (
 	github.com/go-openapi/runtime v0.28.0
 	github.com/go-openapi/strfmt v0.23.0
 	github.com/prometheus/alertmanager v0.27.0
-	github.com/turbot/steampipe-plugin-sdk/v5 v5.10.1
+	github.com/turbot/steampipe-plugin-sdk/v5 v5.10.3
 )
 
 require (
